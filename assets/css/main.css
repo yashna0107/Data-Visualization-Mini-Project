@@ -241,8 +241,8 @@ hr {
   border-bottom-color: rgba(0, 0, 0, 0.25); }
 
 /* Inner */
-.inner {
-  margin: 0 auto;
+.inner { // testimonial boxes edit. 0 auto;
+  margin:0px 0px 50px 120px;
   width: 75rem;
   max-width: calc(100% - 6rem); }
   @media screen and (max-width: 480px) {
@@ -752,7 +752,7 @@ table.alt tbody tr td {
     .highlights > :nth-last-child(-n + 3) {
       padding-bottom: 1rem; }
     .highlights > :nth-child(3n + 1) {
-      padding-left: 1rem; }
+      padding-left: 5rem; } //
     .highlights > :nth-child(3n) {
       padding-right: 1rem; }
     .highlights > :nth-child(3n + 1),
@@ -782,7 +782,7 @@ table.alt tbody tr td {
     .highlights > :nth-last-child(-n + 1) {
       padding-bottom: 0; }
     .highlights > :nth-child(1n + 1) {
-      padding-left: 0; }
+      padding-left: 100px; }//
     .highlights > :nth-child(1n) {
       padding-right: 0; }
     .highlights > :nth-child(1n + 1),
@@ -795,7 +795,7 @@ table.alt tbody tr td {
 
 /* Testimonials */
 .testimonials {
-  margin: 2.5rem 0;
+  margin: 0px 0px 0px 190px; /* 2.5rem 0  */
   width: 100%;
   display: -moz-flex;
   display: -webkit-flex;
@@ -848,7 +848,7 @@ table.alt tbody tr td {
       -ms-align-items: center;
       align-items: center; }
       .testimonials .content .author blockquote {
-        margin: 0; }
+        margin: 0; } /* margin value */
       .testimonials .content .author .image {
         margin-right: 2rem;
         width: 20%; }
@@ -858,7 +858,7 @@ table.alt tbody tr td {
     .testimonials .content .credit {
       font-size: 0.75rem; }
     .testimonials .content p:last-child {
-      margin: 0; }
+      margin: 0 }
   .testimonials > div > :last-child {
     margin-bottom: 0; }
   @media screen and (max-width: 980px) {
