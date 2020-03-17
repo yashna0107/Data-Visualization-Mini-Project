@@ -18,7 +18,7 @@ function createGraph(data) {
 	var latest = ["2008"];
 
 	for (var i = 1; i<data.length; i++){
-		if((data[i][1] === "Canada") && (data[i][3] === "Total, registration status") && (data[i][4] === "Total, program level" && data[i][6] === "Females")){
+		if((data[i][1] === "Canada") && (data[i][3] === "Total, registration status") && (data[i][4] === "Total, program level" && data[i][6] === "Males")){
 			if((data[i][5] === "Education")){
 							if(data[i][0] === "1992/1993"){
 								earliest.push(data[i][13]);
@@ -119,7 +119,7 @@ function createGraph(data) {
     latest];
 
 var chart = c3.generate({
-		bindto: '#horbar',
+		bindto: '#malefields',
     data: {
         x : 'x',
         columns: full,
