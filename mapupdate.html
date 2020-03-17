@@ -1,0 +1,457 @@
+<!DOCTYPE HTML>
+<!--
+	Industrious by TEMPLATED
+	templated.co @templatedco
+	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
+-->
+<html>
+	<head>
+		<title>Generic Page - Industrious by TEMPLATED</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<meta name="description" content="" />
+		<meta name="keywords" content="" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+
+		<script type="text/javascript" src="https://d3js.org/d3.v4.min.js"></script>
+
+		<style type="text/css">
+
+			#buttons{
+				 display:inline-block;
+				 padding:0.35em 1.2em;
+				 border:0.1em solid #FFFFFF;
+				 margin:0 0.3em 0.3em 0;
+				 margin-left: 350px;
+				 border-radius:0.12em;
+				 box-sizing: border-box;
+				 text-decoration:none;
+				 font-weight:300;
+				 color:#FFFFFF;
+				 text-align:center;
+				 transition: all 0.2s;
+			}
+
+			.mapButton:hover{
+				 color:#000000;
+				 background:#525457;
+			}
+
+			@media all and (max-width:30em){
+			 .mapButton{
+			  display:block;
+			  margin:0em auto;
+			 }
+			}
+
+		</style>
+
+    <!-- <link rel="stylesheet"  href="css/normalize.css"> -->
+    <link href='https://fonts.googleapis.com/css?family=Changa+One|Open+Sans:300italic,700italic,400,700,800' rel='stylesheet' type='text/css'>
+
+		<!-- Load c3.css -->
+		<link href="assets/css/c3.css" rel="stylesheet" type="text/css">
+
+		<!-- Load d3.js and c3.js -->
+		<script src="assets/js/c3.min.js"></script>
+
+		<!-- Load papaparse.js -->
+		<script src="assets/js/papaparse.min.js"></script>
+
+	</head>
+	<body class="is-preload">
+
+		<!-- Header -->
+			<header id="header">
+				<a class="logo" href="index.html">Industrious</a>
+				<nav>
+					<a href="#menu">Menu</a>
+				</nav>
+			</header>
+
+		<!-- Nav -->
+			<nav id="menu">
+				<ul class="links">
+					<li><a href="index.html">Home</a></li>
+					<li><a href="elements.html">Elements</a></li>
+					<li><a href="generic.html">Generic</a></li>
+				</ul>
+			</nav>
+
+		<!-- Heading -->
+			<div id="heading" >
+				<h1>Generic Page</h1>
+			</div>
+
+		<!-- Main -->
+			<section id="main" class="wrapper">
+				<div class="inner">
+					<div class="content">
+						<header>
+							<h2>Feugiat consequat</h2>
+						</header>
+						<div class="container">
+							<div id="chart"></div>
+							</div>
+							<script src="assets/js/create-graph.js"></script>
+						<p>Lorem ipsum dolor sit accumsan interdum nisi, quis tincidunt felis sagittis eget. tempus euismod. Magna et cursus lorem faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent tincidunt felis sagittis eget. tempus euismod tempus. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent tincidunt felis sagittis eget. tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac sed amet praesent. Nunc lacinia ante nunc ac gravida lorem ipsum dolor sit amet dolor feugiat consequat. </p>
+
+
+						<div id="buttons">
+						<button class="mapButton" id="button" onClick="updateMap()">Year 1992/1993</button>
+						<button class="mapButton" id="button2" onClick="updateMap2()">Year 2008/2009</button>
+					</div>
+
+				<div id="OutDiv">
+					<div id="map"> </div>
+				</div>
+				<script type="text/javascript">
+
+					//Width and height
+						var w = 800;
+						var h = 600;
+
+				//var w = document.getElementById("map").clientWidth;
+				//var h = document.getElementById("map").clientHeight;
+					//Define map projection
+					var projection = d3.geoAzimuthalEquidistant()
+									.rotate([100,-45])
+									.center([5,20])
+									.translate([w/2+w/5, h/2])
+									.scale(600);
+
+					//Define path generator
+					var path = d3.geoPath()
+									 .projection(projection);
+
+									 var color = d3.scaleLinear()
+															.range(["rgb(253,204,138)","rgb(227,74,51)","rgb(179,0,0)"]);
+
+									// var color2 = d3.scaleLinear()
+									// 							 .range(["rgb(125, 219, 150)","rgb(47, 156, 76)","rgb(0, 89, 24"]);
+									var color2 = d3.scaleLinear()
+							 									 .range(["rgb(115, 101, 199)","rgb(76, 59, 184)","rgb(16, 0, 115)"]);
+														 //Colors derived from ColorBrewer, by Cynthia Brewer, and included in
+														 //https://github.com/d3/d3-scale-chromatic
+
+					//Define quantize scale to sort data values into buckets of color
+				/*	var color = d3.scaleQuantize()
+										.range(["rgb(255,247,236)","rgb(254,232,200)","rgb(253,212,158)","rgb(253,187,1324)","rgb(252,141,89)","rgb(239,101,72)","rgb(215,48,31)","rgb(179,0,0)","rgb(127,0,0)"]);
+										//Colors derived from ColorBrewer, by Cynthia Brewer, and included in
+										//https://github.com/d3/d3-scale-chromatic  */
+					var dataset;
+					//Create SVG element
+					var svg2 = d3.select("#map")
+								.append("svg")
+								.attr("width", w)
+								.attr("height", h);
+
+					//Load in agriculture data
+					d3.csv("data2.csv", function(data) {
+						dataset = data;
+						//Set input domain for color scale
+						color.domain([
+							d3.min(data, function(d) { return d.females; }),
+							d3.max(data, function(d) { return d.females; })
+						]);
+
+						color2.domain([
+							d3.min(data, function(d) { return d.males; }),
+							d3.max(data, function(d) { return d.males; })
+						]);
+
+						//Load in GeoJSON data
+						d3.json("canada.json", function(err, json) {
+							if(err) console.log("error fetching data");
+		// data holds the file content
+
+
+							//Merge the ag. data and GeoJSON
+							//Loop through once for each ag. data value
+							for (var i = 0; i < data.length; i++) {
+
+								//Grab state name
+								var dataProvince = data[i].province;
+
+								//Grab data value, and convert from string to float
+								var dataValue = parseFloat(data[i].females);
+								var length  = json.features.length;
+
+								//Find the corresponding state inside the GeoJSON
+								for (var j = 0; j < length; j++) {
+
+									var jsonProvince = json.features[j].properties.NAME;
+
+									if (dataProvince == jsonProvince) {
+
+										//Copy the data value into the JSON
+										json.features[j].properties.value = dataValue;
+
+										//Stop looking through the JSON
+										break;
+
+									}
+								}
+							}
+
+							//Bind data and create one path per GeoJSON feature
+							svg2.selectAll("path")
+								 .data(json.features)
+								 .enter()
+								 .append("path")
+								 .attr("d", path)
+								 .style("fill", function(d) {
+										//Get data value
+										return color(d.properties.value);
+								 })
+								 .append("title").text( (d) => d.properties.NAME+": "+d.properties.value+"%" );
+
+								 svg2.append("rect")
+								 .attr("id", "rect1")
+								 .attr("x", w-80)
+								 .attr("y", h-84)
+									.attr("fill", "rgb(179,0,0)" )
+									.attr("height", 18)
+									.attr("width", 15);
+
+									svg2.append("text")
+									.attr("id", "text1")
+										.text("Highest")
+										.attr("x",  w-60 )
+										.attr("y",  h-70 );
+
+										svg2.append("rect")
+										.attr("id", "rect2")
+										.attr("x", w-80)
+										.attr("y", h-64)
+											.attr("fill", "rgb(253,204,138)")
+											.attr("height", 18)
+											.attr("width", 15);
+
+										 svg2.append("text")
+										 .attr("id", "text2")
+											 .text("Lowest")
+											 .attr("x",  w-62 )
+											 .attr("y",  h-45 );
+
+					});
+				});
+
+
+
+					var updateMap = function(){
+						data=dataset;
+						//Load in GeoJSON data
+						d3.json("canada.json", function(err, json) {
+							if(err) console.log("error fetching data");
+		// data holds the file content
+
+
+							//Merge the ag. data and GeoJSON
+							//Loop through once for each ag. data value
+							for (var i = 0; i < data.length; i++) {
+
+								//Grab state name
+								var dataProvince = data[i].province;
+
+								//Grab data value, and convert from string to float
+								var dataValue = parseFloat(data[i].females);
+								var length  = json.features.length;
+
+								//Find the corresponding state inside the GeoJSON
+								for (var j = 0; j < length; j++) {
+
+									var jsonProvince = json.features[j].properties.NAME;
+
+									if (dataProvince == jsonProvince) {
+
+										//Copy the data value into the JSON
+										json.features[j].properties.value = dataValue;
+
+										//Stop looking through the JSON
+										break;
+
+									}
+								}
+							}
+
+							//Bind data and create one path per GeoJSON feature
+							svg2.selectAll("path")
+								 .data(json.features)
+								 .transition()
+								 .duration(1500)
+								 .ease(d3.easeLinear)
+								 .delay(200)
+								 .attr("d", path)
+								 .style("fill", function(d) {
+										//Get data value
+										return color(d.properties.value);
+
+						})
+						.select("title").text( (d) => d.properties.NAME+": "+d.properties.value+"%" );
+
+						svg2.select("#rect1")
+						.attr("x", w-80)
+						.attr("y", h-84)
+						 .attr("fill", "rgb(179,0,0)" )
+						 .attr("height", 18)
+						 .attr("width", 15);
+
+						 svg2.select("#text1")
+							 .text("Highest")
+							 .attr("x",  w-60 )
+							 .attr("y",  h-70 );
+
+							 svg2.select("#rect2")
+							 .attr("x", w-80)
+							 .attr("y", h-64)
+								 .attr("fill", "rgb(253,204,138)")
+								 .attr("height", 18)
+								 .attr("width", 15);
+
+								svg2.select("#text2")
+									.text("Lowest")
+									.attr("x",  w-62 )
+									.attr("y",  h-45 );
+
+					});
+
+					};
+					var updateMap2 = function(){
+						data=dataset;
+						//Load in GeoJSON data
+						d3.json("canada.json", function(err, json) {
+							if(err) console.log("error fetching data");
+		// data holds the file content
+
+
+							//Merge the ag. data and GeoJSON
+							//Loop through once for each ag. data value
+							for (var i = 0; i < data.length; i++) {
+
+								//Grab state name
+								var dataProvince = data[i].province;
+
+								//Grab data value, and convert from string to float
+								var dataValue = parseFloat(data[i].males);
+								var length  = json.features.length;
+
+								//Find the corresponding state inside the GeoJSON
+								for (var j = 0; j < length; j++) {
+
+									var jsonProvince = json.features[j].properties.NAME;
+
+									if (dataProvince == jsonProvince) {
+
+										//Copy the data value into the JSON
+										json.features[j].properties.value = dataValue;
+
+										//Stop looking through the JSON
+										break;
+
+									}
+								}
+							}
+
+							//Bind data and create one path per GeoJSON feature
+							svg2.selectAll("path")
+								 .data(json.features)
+								 .transition()
+								 .duration(1500)
+								 .ease(d3.easeLinear)
+								 .delay(200)
+								 .attr("d", path)
+								 .style("fill", function(d) {
+										//Get data value
+										return color2(d.properties.value);
+
+
+
+						})
+						.select("title").text( (d) => d.properties.NAME+": "+d.properties.value+"%" );
+
+						svg2.select("#rect1")
+						.attr("x", w-80)
+						.attr("y", h-84)
+						 .attr("fill", "rgb(16,0,115)" )
+						 .attr("height", 18)
+						 .attr("width", 15);
+
+						 svg2.select("#text1")
+							 .text("Highest")
+							 .attr("x",  w-60 )
+							 .attr("y",  h-70 );
+
+							 svg2.select("#rect2")
+							 .attr("x", w-80)
+							 .attr("y", h-64)
+								 .attr("fill", "rgb(115,101,199)")
+								 .attr("height", 18)
+								 .attr("width", 15);
+
+								svg2.select("#text2")
+									.text("Lowest")
+									.attr("x",  w-62 )
+									.attr("y",  h-45 );
+
+
+
+					});
+
+
+					};
+
+				</script>
+
+
+						<p>Lorem ipsum dolor sit accumsan interdum nisi, quis tincidunt felis sagittis eget. tempus euismod. Magna et cursus lorem faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent tincidunt felis sagittis eget. tempus euismod tempus. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent tincidunt felis sagittis eget. tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac sed amet praesent. Nunc lacinia ante nunc ac gravida lorem ipsum dolor sit amet dolor feugiat consequat. </p>
+						<hr />
+						<h3>Magna odio tempus commodo</h3>
+						<p>In arcu accumsan arcu adipiscing accumsan orci ac. Felis id enim aliquet. Accumsan ac integer lobortis commodo ornare aliquet accumsan erat tempus amet porttitor. Ante commodo blandit adipiscing integer semper orci eget. Faucibus commodo adipiscing mi eu nullam accumsan morbi arcu ornare odio mi adipiscing nascetur lacus ac interdum morbi accumsan vis mi accumsan ac praesent.</p>
+						<p>Felis sagittis eget tempus primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent tincidunt felis sagittis eget. tempus euismod. Magna sed etiam ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus lorem ipsum dolor sit amet nullam.</p>
+					</div>
+				</div>
+			</section>
+
+		<!-- Footer -->
+			<footer id="footer">
+				<div class="inner">
+					<div class="content">
+						<section>
+							<h3>Accumsan montes viverra</h3>
+							<p>Nunc lacinia ante nunc ac lobortis. Interdum adipiscing gravida odio porttitor sem non mi integer non faucibus ornare mi ut ante amet placerat aliquet. Volutpat eu sed ante lacinia sapien lorem accumsan varius montes viverra nibh in adipiscing. Lorem ipsum dolor vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing sed feugiat eu faucibus. Integer ac sed amet praesent. Nunc lacinia ante nunc ac gravida.</p>
+						</section>
+						<section>
+							<h4>Sem turpis amet semper</h4>
+							<ul class="alt">
+								<li><a href="#">Dolor pulvinar sed etiam.</a></li>
+								<li><a href="#">Etiam vel lorem sed amet.</a></li>
+								<li><a href="#">Felis enim feugiat viverra.</a></li>
+								<li><a href="#">Dolor pulvinar magna etiam.</a></li>
+							</ul>
+						</section>
+						<section>
+							<h4>Magna sed ipsum</h4>
+							<ul class="plain">
+								<li><a href="#"><i class="icon fa-twitter">&nbsp;</i>Twitter</a></li>
+								<li><a href="#"><i class="icon fa-facebook">&nbsp;</i>Facebook</a></li>
+								<li><a href="#"><i class="icon fa-instagram">&nbsp;</i>Instagram</a></li>
+								<li><a href="#"><i class="icon fa-github">&nbsp;</i>Github</a></li>
+							</ul>
+						</section>
+					</div>
+					<div class="copyright">
+						&copy; Untitled. Photos <a href="https://unsplash.co">Unsplash</a>, Video <a href="https://coverr.co">Coverr</a>.
+					</div>
+				</div>
+			</footer>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
