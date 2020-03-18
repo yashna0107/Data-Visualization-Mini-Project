@@ -12,17 +12,13 @@ The project will open up.
 On the home page, you will be able to Line Chart, Bar Chart and Map Visualization.
 Click on the icons and you will be navigated to the respective charts.
 
-#Files in the Project:
--assets
-  -css
-  -fonts
-  -js
-  -sass
+#Folders in the Project:
+ -assets
  -data
  -images
  -bar.html
  -canada.json
- - chart.html
+ -chart.html
  -data2.csv
  -elements.html
  -generic.html
